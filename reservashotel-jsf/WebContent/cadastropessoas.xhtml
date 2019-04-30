@@ -13,19 +13,35 @@
 
 <h:body>
 	<h1>Cadastro de Pessoas</h1>
+	<h:messages styleClass="erro" />
 	<h:form>
 		<label>Nome: <h:inputText id="nome"
 				value="#{cadastroPessoasBean.pessoaSelecionada.nome}" /></label>
 		<br />
 		<label>Email: <h:inputText id="email"
-				value="#{cadastroPessoasBean.pessoaSelecionada.email}" /></label>
+				value="#{cadastroPessoasBean.pessoaSelecionada.email}"
+				validatorMessage="E-mail inválido!">
+				<f:validateRegex pattern=".+@.+" />
+			</h:inputText>
+			 <h:message for="email" styleClass="erro" />
+		</label>
 		<br />
 		<label>Telefone: <h:inputText id="telefone"
 				value="#{cadastroPessoasBean.pessoaSelecionada.telefone}" /></label>
 		<br />
+		<label>CPF: <h:inputText id="cpf"
+				value="#{cadastroPessoasBean.pessoaSelecionada.cpf}"
+				validatorMessage="CPF inválido!">
+				<f:validateRegex pattern="\d{3}(\.\d{3}){2}-\d{2}" />
+			</h:inputText>
+			<h:message for="cpf" styleClass="erro" />
+			</label>
+		<br />
 
 		<h:commandButton action="#{cadastroPessoasBean.salvar}" value="Salvar" />
-
+		<h:commandButton value="Cancelar" immediate="true" />
+	</h:form>
+	<h:form>
 		<h2>Lista de Pessoas Cadastradas</h2>
 		<h:dataTable value="#{cadastroPessoasBean.lista}" var="p"
 			rowClasses="linha1, linha2">
@@ -47,8 +63,10 @@
 					<f:setPropertyActionListener value="#{p}"
 						target="#{cadastroPessoasBean.pessoaSelecionada}" />
 				</h:commandLink> | 
-				<h:commandLink value="Excluir" action="#{cadastroPessoasBean.excluir}"> 
-				<f:setPropertyActionListener value="#{p}" target="#{cadastroPessoasBean.pessoaSelecionada}" />
+				<h:commandLink value="Excluir"
+					action="#{cadastroPessoasBean.excluir}">
+					<f:setPropertyActionListener value="#{p}"
+						target="#{cadastroPessoasBean.pessoaSelecionada}" />
 				</h:commandLink>
 			</h:column>
 		</h:dataTable>

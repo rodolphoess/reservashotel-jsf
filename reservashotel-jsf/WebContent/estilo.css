@@ -19,3 +19,7 @@ tr.linha1 > td {
 tr.linha2 > td {
 	background-color: #FFF;
 }
+
+.erro {
+	color: #F00;
+}
