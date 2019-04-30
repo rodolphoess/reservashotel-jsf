@@ -40,6 +40,10 @@ public class CadastroPessoasBean {
 		}
 	}
 	
+	public String cancelar() {
+		return "/index";
+	}
+	
 	public void excluir() {
 		lista.remove(pessoaSelecionada);
 		

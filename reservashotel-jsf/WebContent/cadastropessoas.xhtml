@@ -37,9 +37,17 @@
 			<h:message for="cpf" styleClass="erro" />
 			</label>
 		<br />
+		<label>Data de Nascimento: <h:inputText id="dataNascimento"
+				value="#{cadastroPessoasBean.pessoaSelecionada.dataNascimento}" 
+				converterMessage="Insira uma data como dd/MM/aaaa." >
+					<f:convertDateTime pattern="dd/MM/yyyy"/>
+				</h:inputText>
+				<h:message for="dataNascimento" styleClass="erro" />
+				</label>
+		<br />
 
 		<h:commandButton action="#{cadastroPessoasBean.salvar}" value="Salvar" />
-		<h:commandButton value="Cancelar" immediate="true" />
+		<h:commandButton action="#{cadastroPessoasBean.cancelar}" value="Cancelar" immediate="true" />
 	</h:form>
 	<h:form>
 		<h2>Lista de Pessoas Cadastradas</h2>
