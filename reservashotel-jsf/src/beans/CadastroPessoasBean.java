@@ -2,64 +2,121 @@ package beans;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
-import javax.annotation.*;
-import javax.enterprise.context.*;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 
 import modelo.Pessoa;
 import modelo.PessoaFisica;
+import modelo.PessoaJuridica;
 
-//@ManagedBean
-//@SessionScoped
 @ManagedBean
 @SessionScoped
 public class CadastroPessoasBean {
+	
 	private Pessoa pessoaSelecionada;
 	private Collection<Pessoa> lista;
+	private String tipoNovaPessoa;
 	
 	public CadastroPessoasBean() {
-		pessoaSelecionada = new PessoaFisica();
+		
 		lista = new ArrayList<Pessoa>();
 		
-		for (int i = 0; i < 10; i++) {
-			Pessoa p = new PessoaFisica();
+		for (int x = 0; x < 10; x++) {
+			Pessoa p = (x%2==0) ? new PessoaFisica() : new PessoaJuridica();
 			
-			p.setNome("Fulano 0" + i);
-			p.setEmail("fulano0" + i + "@gmail.com");
-			p.setTelefone("9999-999" + i);
+			p.setNome(String.format("Fulano %02d", x));
+			p.setEmail(String.format("fulano%02d@teste.com", x));
+			p.setTelefone(String.format("9999.88%02d", x));
 			
 			lista.add(p);
 		}
 	}
+	
+	public void criar() {
+		
+		FacesContext contexto = FacesContext.getCurrentInstance();
+		
+		if (tipoNovaPessoa == null) {
+			contexto.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Você deve especificar o tipo", ""));
+			return;
+		}
+		
+		if (tipoNovaPessoa.equals("PF")) {
+			pessoaSelecionada = new PessoaFisica();
+		} else if (tipoNovaPessoa.equals("PJ")) {
+			pessoaSelecionada =	new PessoaJuridica();
+		}
+		
+		contexto.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Pessoa criada com sucesso!", ""));
+	}
 
 	public void salvar() {
+		
 		if (!lista.contains(pessoaSelecionada)) {
 			lista.add(pessoaSelecionada);
 		}
+		
+		FacesContext contexto = FacesContext.getCurrentInstance();
+		contexto.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edição efetuada com sucesso!", ""));
 	}
 	
 	public String cancelar() {
+		
+		pessoaSelecionada = null;
+		tipoNovaPessoa = null;
+		
 		return "/index";
 	}
 	
 	public void excluir() {
+		
 		lista.remove(pessoaSelecionada);
 		
-		pessoaSelecionada = new PessoaFisica();
+		pessoaSelecionada = null;
+		String mensagem = ResourceBundle.getBundle("bundles.mensagens",
+				FacesContext.getCurrentInstance().getExternalContext().getRequestLocale()
+		).getString("excluida");
+		
+		FacesContext.getCurrentInstance().addMessage(null, 
+				new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, ""));
 	}
 	
 	public Pessoa getPessoaSelecionada() {
 		return pessoaSelecionada;
 	}
+	
 	public void setPessoaSelecionada(Pessoa pessoaSelecionada) {
 		this.pessoaSelecionada = pessoaSelecionada;
 	}
+	
 	public Collection<Pessoa> getLista() {
 		return lista;
 	}
+	
 	public void setLista(Collection<Pessoa> lista) {
 		this.lista = lista;
+	}
+	
+	public String getTipoNovaPessoa() {
+		return tipoNovaPessoa;
+	}
+
+	public void setTipoNovaPessoa(String tipoNovaPessoa) {
+		this.tipoNovaPessoa = tipoNovaPessoa;
+	}
+	
+	public void ouvinteAjax(AjaxBehaviorEvent event) {
+		Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info("AJAX " + event.getPhaseId());
+	}
+
+	public void ouvinteAjax(ValueChangeEvent event) {
+		Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info("AJAX VALUE CHANGE ");
 	}
 }
