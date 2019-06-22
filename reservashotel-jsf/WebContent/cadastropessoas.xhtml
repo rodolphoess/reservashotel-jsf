@@ -12,7 +12,7 @@
 		<h:messages infoClass="info" errorClass="erro" warnClass="warn" fatalClass="fatal" />
 	</ui:define>
 
-	<h1>Cadastro de Pessoas</h1>
+	<h1>Cadastro de Funcionários e Fornecedores</h1>
 	<h:form id="escolhaIdiomas">
 		<h:panelGrid id="painel" columns="3">
   			#{mens.escolha}
@@ -107,7 +107,7 @@
 		<h:commandButton immediate="true" action="#{cadastroPessoasBean.cancelar}" image="#{resource['imagens:cancelar.png']}" />
 	</h:form>
 	<h:form id="formTabela">
-		<h2>Lista de pessoas cadastradas</h2>
+		<h2>Lista de Funcionários e Fornecedores Cadastrados</h2>
 		<h:dataTable id="tabela" value="#{cadastroPessoasBean.lista}" var="p" rowClasses="linha1, linha2">
 			<esp:coluna nome="Nome" valor="#{p.nome}" escapar="true" informar="false" />
 			<esp:coluna nome="Email" valor="#{p.email}" escapar="true" informar="false" />
