@@ -16,6 +16,7 @@ import modelo.Pessoa;
 import modelo.PessoaFisica;
 import modelo.PessoaJuridica;
 import modelo.Sexo;
+import negocio.CadastroPessoasFactory;
 import negocio.CadastroPessoasService;
 
 @ManagedBean
@@ -27,11 +28,13 @@ public class CadastroPessoasBean {
 	private String tipoNovaPessoa;
 	
 	private CadastroPessoasService service;
+	private CadastroPessoasFactory factory;
 	
 	public CadastroPessoasBean() {
 		
 		this.lista = new ArrayList<Pessoa>();
 		this.service = new CadastroPessoasService();
+		this.factory = new CadastroPessoasFactory();
 		
 		for (int x = 0; x < 10; x++) {
 			Pessoa p = (x%2==0) ? new PessoaFisica() : new PessoaJuridica();
@@ -53,11 +56,7 @@ public class CadastroPessoasBean {
 			return;
 		}
 		
-		if (tipoNovaPessoa.equals("PF")) {
-			pessoaSelecionada = new PessoaFisica();
-		} else if (tipoNovaPessoa.equals("PJ")) {
-			pessoaSelecionada =	new PessoaJuridica();
-		}
+		pessoaSelecionada = factory.criarPessoa(tipoNovaPessoa);
 		
 		contexto.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Pessoa criada com sucesso!", ""));
 	}
