@@ -59,10 +59,4 @@ public class Endereco implements Serializable {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
-	
-
 }

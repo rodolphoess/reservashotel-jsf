@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<ui:composition template="/estrutura.xhtml">
+		<ui:param name="titulo" value="SISMARV" />		
+		<h1>SISMARV</h1>
+		
+		Olá!  
+		<h:outputText value="#{meuPrimeiroBean.ola}" rendered="#{meuPrimeiroBean.exibir}" escape="false" />
+		
+		<h:form>
+			Página Inicial 
+			<h:selectBooleanCheckbox value="#{meuPrimeiroBean.exibir}" />
+
+			<br />
+			
+			Clique no link para cadastrar um funcionário ou fornecedor 
+			<h:link outcome="cadastropessoas.jsf" value="Cadastro de Funcionários"/>
+		</h:form>
+	
+	</ui:composition>
+
+</html>

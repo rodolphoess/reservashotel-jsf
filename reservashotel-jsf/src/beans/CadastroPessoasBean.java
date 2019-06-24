@@ -15,6 +15,7 @@ import javax.faces.event.ValueChangeEvent;
 import modelo.Pessoa;
 import modelo.PessoaFisica;
 import modelo.PessoaJuridica;
+import modelo.Sexo;
 
 @ManagedBean
 @SessionScoped
@@ -110,6 +111,18 @@ public class CadastroPessoasBean {
 
 	public void setTipoNovaPessoa(String tipoNovaPessoa) {
 		this.tipoNovaPessoa = tipoNovaPessoa;
+	}
+	
+	public Sexo[] getSexos() {
+		return Sexo.values();
+	}
+
+	public boolean isPessoaFisicaSelecionada() {
+		return pessoaSelecionada instanceof PessoaFisica;
+	}
+
+	public boolean isPessoaJuridicaSelecionada() {
+		return pessoaSelecionada instanceof PessoaJuridica;
 	}
 	
 	public void ouvinteAjax(AjaxBehaviorEvent event) {

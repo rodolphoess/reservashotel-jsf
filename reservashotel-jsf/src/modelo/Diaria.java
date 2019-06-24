@@ -18,12 +18,15 @@ public class Diaria implements Serializable {
 	private int codigo;
 	private Date data;
 	private Collection<PessoaFisica> hospedes;
+	private Quarto quarto;
 
 	public Diaria() {
 		super();
 	}   
-	@Id    
-	@GeneratedValue
+
+	@Id
+	@GeneratedValue(generator="gendiaria")
+	@SequenceGenerator(name="gendiaria", sequenceName="diaria_codigo_seq")
 	public int getCodigo() {
 		return this.codigo;
 	}
@@ -31,6 +34,7 @@ public class Diaria implements Serializable {
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}   
+	@Temporal(TemporalType.DATE)
 	public Date getData() {
 		return this.data;
 	}
@@ -38,15 +42,27 @@ public class Diaria implements Serializable {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	
+
 	@ManyToMany
-	@JoinTable(name="hospedagem", joinColumns=@JoinColumn(name="cod_diaria"), inverseJoinColumns=@JoinColumn(name="cod_pessoa"))
+	@JoinTable(name="hospedagem",
+			joinColumns=@JoinColumn(name="cod_diaria"),
+			inverseJoinColumns=@JoinColumn(name="cod_pessoa"))
 	public Collection<PessoaFisica> getHospedes() {
 		return hospedes;
 	}
+
 	public void setHospedes(Collection<PessoaFisica> hospedes) {
 		this.hospedes = hospedes;
 	}
-
 	
+	@ManyToOne
+	@JoinColumn(name="cod_quarto")
+	public Quarto getQuarto() {
+		return quarto;
+	}
+
+	public void setQuarto(Quarto quarto) {
+		this.quarto = quarto;
+	}
+   
 }

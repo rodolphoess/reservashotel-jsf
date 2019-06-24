@@ -13,35 +13,35 @@ import modelo.Pessoa;
 @Entity
 public class Reserva implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private int codigo;
 	private Date data;
 	private double valor;
 	private Pessoa cliente;
 	private Collection<DiariaReservada> diarias;
-	
+
 	public Reserva() {
 		super();
-	} 
-	
-	@Id   
-	@GeneratedValue
+	}
+
+	@Id
 	public int getCodigo() {
 		return this.codigo;
 	}
 
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
-	} 
-	
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getData() {
 		return this.data;
 	}
 
 	public void setData(Date data) {
 		this.data = data;
-	} 
-	
+	}
+
 	public double getValor() {
 		return this.valor;
 	}
@@ -51,7 +51,7 @@ public class Reserva implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name="cod_pessoa")
+	@JoinColumn(name = "cod_pessoa")
 	public Pessoa getCliente() {
 		return this.cliente;
 	}
@@ -60,7 +60,7 @@ public class Reserva implements Serializable {
 		this.cliente = cliente;
 	}
 
-	@OneToMany(mappedBy="reserva", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "reserva", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Collection<DiariaReservada> getDiarias() {
 		return diarias;
 	}
@@ -68,6 +68,4 @@ public class Reserva implements Serializable {
 	public void setDiarias(Collection<DiariaReservada> diarias) {
 		this.diarias = diarias;
 	}
-   
-	
 }
