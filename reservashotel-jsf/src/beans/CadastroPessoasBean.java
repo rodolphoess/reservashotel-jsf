@@ -16,6 +16,7 @@ import modelo.Pessoa;
 import modelo.PessoaFisica;
 import modelo.PessoaJuridica;
 import modelo.Sexo;
+import negocio.CadastroPessoasService;
 
 @ManagedBean
 @SessionScoped
@@ -25,9 +26,12 @@ public class CadastroPessoasBean {
 	private Collection<Pessoa> lista;
 	private String tipoNovaPessoa;
 	
+	private CadastroPessoasService service;
+	
 	public CadastroPessoasBean() {
 		
-		lista = new ArrayList<Pessoa>();
+		this.lista = new ArrayList<Pessoa>();
+		this.service = new CadastroPessoasService();
 		
 		for (int x = 0; x < 10; x++) {
 			Pessoa p = (x%2==0) ? new PessoaFisica() : new PessoaJuridica();
@@ -60,12 +64,9 @@ public class CadastroPessoasBean {
 
 	public void salvar() {
 		
-		if (!lista.contains(pessoaSelecionada)) {
-			lista.add(pessoaSelecionada);
-		}
-		
 		FacesContext contexto = FacesContext.getCurrentInstance();
-		contexto.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edição efetuada com sucesso!", ""));
+		
+		service.salvar(contexto, pessoaSelecionada, lista);
 	}
 	
 	public String cancelar() {
@@ -78,15 +79,7 @@ public class CadastroPessoasBean {
 	
 	public void excluir() {
 		
-		lista.remove(pessoaSelecionada);
-		
-		pessoaSelecionada = null;
-		String mensagem = ResourceBundle.getBundle("bundles.mensagens",
-				FacesContext.getCurrentInstance().getExternalContext().getRequestLocale()
-		).getString("excluida");
-		
-		FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, ""));
+		service.excluir(lista, pessoaSelecionada);
 	}
 	
 	public Pessoa getPessoaSelecionada() {
